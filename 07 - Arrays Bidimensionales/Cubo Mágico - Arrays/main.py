@@ -72,6 +72,14 @@ def calcular_contante_magica(cantidad_filas: int, cantidad_columnas: int) -> int
         contante_magica = (cantidad_filas*((cantidad_filas**2) + 1)) / 2
     return contante_magica
 
+
+
+##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
+##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
+##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
+##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
+##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
+##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
 def verificar_filas_magicas(matriz: list, cantidad_filas: int, contante_magica: int) -> bool:
     fila_a_recorrer = 0
     while fila_a_recorrer < cantidad_filas:
