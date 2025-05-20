@@ -1,4 +1,6 @@
+import sys
 import random
+from os import system
 
 def validar_numero (numero, minimo: int, maximo: int) -> int:
     bandera_validacion = None
@@ -11,7 +13,6 @@ def validar_numero (numero, minimo: int, maximo: int) -> int:
                 bandera_validacion = False
         return bandera_validacion
 
-
 def solicitar_entero(mensaje: str, mensaje_error: str, min_val: int, max_val: int) -> int:
     bandera_entero = False
     while bandera_entero == False:
@@ -23,7 +24,6 @@ def solicitar_entero(mensaje: str, mensaje_error: str, min_val: int, max_val: in
         else:
             mensaje = mensaje_error
     return numero_entero
-
 
 def crear_matriz(filas: int, columnas: int, contenido: int = 0) ->list:
     matriz = [[contenido] * columnas for _ in range(filas)]    
@@ -72,43 +72,33 @@ def calcular_contante_magica(cantidad_filas: int, cantidad_columnas: int) -> int
         contante_magica = (cantidad_filas*((cantidad_filas**2) + 1)) / 2
     return contante_magica
 
-
-
-##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
-##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
-##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
-##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
-##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
-##################################### ELIMINAR EL WHILE YA QUE ES LO MISMO QUE EL FOR, Y UTILIZAR BREAK PARA ROMPER EL CICLO
-def verificar_filas_magicas(matriz: list, cantidad_filas: int, contante_magica: int) -> bool:
-    fila_a_recorrer = 0
-    while fila_a_recorrer < cantidad_filas:
+def verificar_filas_magicas(matriz: list, contante_magica: int) -> bool:    
+    for i in range(len(matriz)):
         comparador = 0
-        for i in range(cantidad_filas):
-            comparador += matriz[fila_a_recorrer][i]
+        for j in range(len(matriz[i])):
+            comparador += matriz[i][j]
         if comparador != contante_magica:
             fila_magica =  False
+            break
         else:
             fila_magica = True
-        fila_a_recorrer += 1
     return fila_magica
 
-def verificar_columnas_magicas(matriz: list, cantidad_columnas: int, contante_magica: int) -> bool:
-    columna_a_recorrer = 0
-    while columna_a_recorrer < cantidad_columnas:
+def verificar_columnas_magicas(matriz: list, contante_magica: int) -> bool:
+    for i in range(len(matriz)):
         comparador = 0
-        for i in range(cantidad_columnas):
-            comparador += matriz[i][columna_a_recorrer]
+        for j in range(len(matriz[i])):
+            comparador += matriz[j][i]
         if comparador != contante_magica:
             columna_magica =  False
+            break
         else:
-            columna_magica = True
-        columna_a_recorrer += 1
+            columna_magica = True        
     return columna_magica
 
-def verificar_diagonal_principal_magica(matriz: list, cantidad_columnas: int, contante_magica: int) -> bool:
+def verificar_diagonal_principal_magica(matriz: list, contante_magica: int) -> bool:
     comparador = 0
-    for i in range(cantidad_columnas):
+    for i in range(len(matriz)):
         comparador += matriz[i][i]
     if comparador != contante_magica:
         diagonal_principal_magica = False
@@ -116,10 +106,10 @@ def verificar_diagonal_principal_magica(matriz: list, cantidad_columnas: int, co
         diagonal_principal_magica = True
     return diagonal_principal_magica
 
-def verificar_diagonal_secundaria_magica(matriz: list, cantidad_columnas: int, contante_magica: int) -> bool:
+def verificar_diagonal_secundaria_magica(matriz: list, contante_magica: int) -> bool:
     comparador = 0
-    for i in range(cantidad_columnas):
-        comparador += matriz[i][cantidad_columnas-i-1]
+    for i in range(len(matriz)):
+        comparador += matriz[i][len(matriz)-i-1]
     if comparador != contante_magica:
         diagonal_secundaria_magica = False
     else:
@@ -127,26 +117,111 @@ def verificar_diagonal_secundaria_magica(matriz: list, cantidad_columnas: int, c
     return diagonal_secundaria_magica
 
 def verificar_cubo_magico(matriz: list, constante: int) -> bool:
-    check_1 = verificar_filas_magicas(matriz, len(matriz), constante)
-    check_2 = verificar_columnas_magicas(matriz, len(matriz), constante)
-    check_3 = verificar_diagonal_principal_magica(matriz, len(matriz), constante)
-    check_4 = verificar_diagonal_secundaria_magica(matriz, len(matriz), constante)
-
-    if check_1 and check_2 and check_3 and check_4:
-        es_magico = True
-    else:
-        es_magico = False
+    es_magico = False
+    check_1 = verificar_filas_magicas(matriz, constante)
+    if check_1:
+        check_2 = verificar_columnas_magicas(matriz, constante)
+        if check_2:
+            check_3 = verificar_diagonal_principal_magica(matriz, constante)
+            if check_3:
+                check_4 = verificar_diagonal_secundaria_magica(matriz, constante)
+                if check_4:
+                    es_magico = True        
     return es_magico
 
+def crear_cubo_magico(matriz: list, constante: int) -> list:
+    bandera_magica = False
+    while bandera_magica == False:
+        repetidos = True
+        while repetidos:
+            lista_usados = []        
+            for i in range(len(matriz)):
+                for j in range(len(matriz[i])):
+                    bandera_verificacion = True                
+                    while bandera_verificacion:
+                        numero = random.randint(1, (len(matriz))**2)
+                        numero_a_verificar = verificar_repetido_lista(lista_usados, numero)
+
+                        if numero_a_verificar == False:
+                            matriz[i][j] = numero
+                            lista_usados += [numero]
+                            bandera_verificacion = False
+                        else:
+                            continue
+                checkfila = verificar_filas_magicas([matriz[i]], constante)
+                if checkfila == False:
+                    break
+            if checkfila:
+                repetidos = False
+        check = verificar_cubo_magico(matriz, constante)
+        if check:
+            bandera_magica = True
+    return matriz
+
+def main():
+    print("Bienvenido usuario! Siéntese cómodo y dígame usted, que desea hacer?")
+    opcion = solicitar_entero("Opcion (1): Cargar matriz manualmente.\nOpción (2): cargar matriz automáticamente.\nOpción (3): Generar cuadrado mágico.\n", "Error, lea bien las opciones!!: ", 1, 3)
+
+    rango = solicitar_entero("Que Rango debería tener la matriz?: ", "Error, el rango debe ser mayor a 3", 3, 5)
+
+    constante_magica = calcular_contante_magica(rango, rango)
+
+    match opcion:
+        case 1:
+            matriz = crear_matriz(rango, rango)
+            cargar_matriz(matriz, f"Ingrese el valor en la posicion : ", f"Error, el N° ya fué ingresado o está fuera del rango (1 - {rango**2}): ", rango, False )
+            print("\nUsted ingresó la siguiente matriz: ")
+            mostrar_formato_matriz(matriz)
+            print("Verifiquemos su poder mágico...")
+            verificador = verificar_cubo_magico(matriz, constante_magica)
+            system("pause")
+            system("cls")
+            if verificador:
+                print("BRAVO! SU CUADRADO ES MÁGICO")
+            else:
+                print("Lamento decirle... su cuadrado no es más que eso...")
+            mostrar_formato_matriz(matriz)
+        case 2:
+            matriz = crear_matriz(rango, rango)
+            cargar_matriz(matriz, "", "", rango, True)
+            print("\nHemos creado para usted la siguiente matriz: ")
+            mostrar_formato_matriz(matriz)
+            print("Verifiquemos su poder mágico...")
+            verificador = verificar_cubo_magico(matriz, constante_magica)
+            system("pause")
+            system("cls")
+            if verificador:
+                print("BRAVO! SU CUADRADO ES MÁGICO")
+            else:
+                print("Lamento decirle... su cuadrado no es más que eso...")
+            mostrar_formato_matriz(matriz)
+        case 3:
+            matriz_magica = crear_matriz(rango, rango, 0)
+            matriz_magica = crear_cubo_magico(matriz_magica, constante_magica)
+            print("ABRAKADABRA!")
+            system("pause")
+            system("cls")
+            print("Este es un cuadrado mágico")
+            mostrar_formato_matriz(matriz_magica)
 
 
-x = crear_matriz(3, 3, -2)
-cargar_matriz(x, "ingrese el valor en la posicion ", "error... ", len(x), False)
-mostrar_formato_matriz(x)
-w = calcular_contante_magica(len(x), len(x))
-print(w)
-q = verificar_cubo_magico(x, w)
-print(q)
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+
+# x = crear_cubo_magico()
+# mostrar_formato_matriz(x)
+# print(x)
+
+############
+# x = crear_matriz(3, 3, -2)
+# cargar_matriz(x, "ingrese el valor en la posicion ", "error... ", len(x), False)
+# mostrar_formato_matriz(x)
+# w = calcular_contante_magica(len(x), len(x))
+# print(w)
+# q = verificar_cubo_magico(x, w)
+# print(q)
 
 
 #primer funcion validadora de cubo magico
