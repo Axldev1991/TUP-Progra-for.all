@@ -15,7 +15,7 @@ def calcular_area_circulo(radio: int|float) -> float|None:
         area = radio**2 * math.pi #
     return area
 
-radio = 10
+radio = int(input("Ingrese el radio: "))#10
 area_calculada = calcular_area_circulo(radio)
 print(f"El area del círculo es: {area_calculada}")
 

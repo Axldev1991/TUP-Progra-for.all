@@ -151,6 +151,6 @@ def verificar_cubo_magico(matriz: list, constante: int) -> bool:
             if check_3:
                 check_4 = verificar_diagonal_secundaria_magica(matriz, constante)
                 if check_4:
-                    es_magico = True        
+                    es_magico = True
     return es_magico
 

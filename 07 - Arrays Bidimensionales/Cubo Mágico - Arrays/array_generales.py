@@ -55,8 +55,6 @@ def crear_cubo_magico(matriz: list, constante: int) -> list:
                             matriz[i][j] = numero
                             lista_usados += [numero]
                             bandera_verificacion = False
-                        else:
-                            continue
                 checkfila = verificar_filas_magicas([matriz[i]], constante)
                 if checkfila == False:
                     break

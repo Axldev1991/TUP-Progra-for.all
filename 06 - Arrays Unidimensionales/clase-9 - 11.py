@@ -17,3 +17,7 @@ def calcular_diferencia (vector_1: list, vector_2: list) -> list:
     print(lista_diferencia)
 
 calcular_diferencia(lista_1, lista_2)
+calcular_diferencia(lista_2, lista_1)
+
+
+
